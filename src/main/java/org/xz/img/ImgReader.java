@@ -14,13 +14,13 @@ public class ImgReader {
 	 * @return 生成的img文件的路径
 	 */
 	public String reader(String imgString){
-		return this.reader(imgString, "test");
+		return this.reader(imgString, "test",ConstUtils.prop.getProperty(ConstUtils.IMG_SDK_READ_PATH));
 	}
 	
-	public String reader(String imgString,String imgName){
-		logger.debug("接收到图片的Base64位字符串流，开始进行Base64转码，以获取图片源码!");
+	public String reader(String imgString,String imgName,String imgLocalDir){
+		logger.debug("接收到图片Base64位字符串流，开始Base64转码，以获取图片源码!");
 		String temp=imgName.split("\\.")[0];
-		String path=ConstUtils.prop.getProperty(ConstUtils.IMG_SDK_READ_PATH)+File.separator+temp+".jpg";
+		String path=imgLocalDir+File.separator+temp+".jpg";
 		
 		if(Base64Utils.GenerateImage(imgString, path)){
 			return path;

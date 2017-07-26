@@ -27,6 +27,9 @@ CREATE TABLE `truck` (
   `FeaturePic` varchar(255) CHARACTER SET gbk DEFAULT NULL,
   `FileName` varchar(255) CHARACTER SET gbk DEFAULT NULL COMMENT 'XML文件名称',
   `FilePath` varchar(255) CHARACTER SET gbk DEFAULT NULL COMMENT 'XML文件路径',
+  `ImgLocalPath` varchar(255) CHARACTER SET gbk DEFAULT NULL COMMENT '从xml生成的图片保存到本地的地址',
+  `CreateDateTime` datetime DEFAULT NULL COMMENT '创建的时间',
+  `CreateUserName` varchar(255) CHARACTER SET gbk DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4040 DEFAULT CHARSET=latin1;

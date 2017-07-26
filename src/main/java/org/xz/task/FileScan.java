@@ -2,6 +2,7 @@ package org.xz.task;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -32,20 +33,20 @@ public class FileScan {
 		logger.debug("XML File Root Path==>" + scanPath); 
 		
 		File root=new File(scanPath);
-		FileScan.getDirectory(root);	
+		FileScan.processXML(root);	
 		
-		MysqlHelper.writerToTruck(trucks);
+		//MysqlHelper.writerToDB(trucks);
 	}
 	
 	/**
-	 * 递归遍历
+	 * 递归遍历保存XML的文件，将XML的属性信息保存到内存中，同时将图片保存到图片文件夹
 	 * @param file 根目录
 	 * @throws IOException 
 	 * @throws DocumentException 
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
-	private static void getDirectory(File file) throws DocumentException, IOException, ClassNotFoundException, SQLException {
+	private static void processXML(File file)  {
 		
 		File flist[] = file.listFiles();
 		if (flist == null || flist.length == 0) {
@@ -57,7 +58,7 @@ public class FileScan {
 			if (f.isDirectory()) {
 				//这里将列出所有的文件夹
 				logger.debug("Dir==>" + filePath); 
-				getDirectory(f);
+				processXML(f);
 			} else {
 				//这里将列出所有的文件
 				logger.debug("File==>" + filePath);
@@ -66,14 +67,20 @@ public class FileScan {
 				if(!FileScan.validate(fileName)){
 					continue;
 				}else{
-	                XmlReader xmlReader=new XmlReader();				//从文件中提取文件字符串
-	                InputStream fis=new FileInputStream(filePath);		
+					try {
+		                XmlReader xmlReader=new XmlReader();								//从文件中提取文件字符串
+		                InputStream fis = new FileInputStream(filePath);
+						
+		                Map<String,String> map=xmlReader.reader(fis,f.getParent(),fileName);//读取XML文件信息，并将图片保存到本地	                
+		                trucks.add(map);													//将属性信息放入列表中，用于入库
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (DocumentException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}		
 	                
-	                Map<String,String> map=xmlReader.reader(fis);
-	                map.put("filePath", filePath);
-	                map.put("fileName", fileName);
-	                
-	                trucks.add(map);
 				}
 			}
 		}		

@@ -16,7 +16,15 @@ public class MysqlHelper {
 	private static Logger logger = LoggerFactory.getLogger(MysqlHelper.class);
 	private static Connection con = null;
 	
-	public static boolean writerToTruck(List<Map<String,String>> trucks) throws ClassNotFoundException, SQLException, IOException{
+	/**
+	 * 从XML中读取到的属性信息入库
+	 * @param trucks
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	public static boolean writerToDB(List<Map<String,String>> trucks) throws ClassNotFoundException, SQLException, IOException{
 		logger.debug("开始写入数据到Mysql货车库！");
 		if(trucks==null||trucks.size()==0){
 			return false;
@@ -43,13 +51,11 @@ public class MysqlHelper {
 				keysql.deleteCharAt(keysql.length()-1);
 				valuesql.deleteCharAt(valuesql.length()-1);
 				
-				sql.append("(").append(keysql.toString()).append(")").append(" VALUES ").append("(").append(valuesql.toString()).append(")");
-				
+				sql.append("(").append(keysql.toString()).append(")").append(" VALUES ").append("(").append(valuesql.toString()).append(")");				
 				logger.debug("total="+total+",current="+current+",sql="+sql.toString());
 				
-				DBUtil.execute(con, sql.toString());
+				DBUtil.execute(con, sql.toString());//执行写入
 			}
-			
 			DBUtil.closeConnection();
 		}
 		return false;
