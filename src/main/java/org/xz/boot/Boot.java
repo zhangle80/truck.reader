@@ -15,7 +15,7 @@ import org.xz.utils.ConstUtils;
  */
 public class Boot {
 	private static Logger logger = LoggerFactory.getLogger(Boot.class);
-	private static String version = "1.0.0";//当前系统版本
+	private static String version = "1.0.1";//当前系统版本
 	
 	/**
 	 * @param args
@@ -26,12 +26,15 @@ public class Boot {
 	 * @throws ClassNotFoundException 
 	 */
 	public static void main(String[] args) throws DocumentException, IOException, ClassNotFoundException, SQLException {
-        // 记录debug级别的信息
+        long start=System.currentTimeMillis();
+		// 记录debug级别的信息
         logger.info("您好，读取XML文件系统启动，当前系统的版本号是"+Boot.version);
         // 读取配置参数，并将参数存储在内存中
         ConstUtils.scanConst();
         // 启动刷新任务
         FileScan.doScanPathFile();
+        long consume=(System.currentTimeMillis()-start)/1000;
+        logger.info("您好，本次运行消耗时间："+consume+"秒");
 	}
 
 }

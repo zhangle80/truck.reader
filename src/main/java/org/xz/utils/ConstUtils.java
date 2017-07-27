@@ -36,6 +36,9 @@ public class ConstUtils {
 	public static String DB_USERNAME="db.username";
 	public static String DB_PASSWORD="db.password";
 	
+	public static String SAVE_IMG_TO_LOCAL="save_img_to_local";
+	public static String SAVE_INF_TO_DB="save_inf_to_db";
+	
 	
 	public static void scanConst(){	
 		logger.debug("开始读取常量属性文件...");

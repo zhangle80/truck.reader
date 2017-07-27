@@ -20,8 +20,8 @@ public class ImageUtils {
             reader.setInput(imageStream, true);  
             ImageReadParam param = reader.getDefaultReadParam();  
               
-            System.out.println(reader.getWidth(0));  
-            System.out.println(reader.getHeight(0));  
+            //System.out.println(reader.getWidth(0));  
+            //System.out.println(reader.getHeight(0));  
             Rectangle rect = new Rectangle(x, y, width, height);  
             param.setSourceRegion(rect);  
             BufferedImage bi = reader.read(0, param);  
@@ -50,8 +50,8 @@ public class ImageUtils {
             reader.setInput(imageStream, true);  
             ImageReadParam param = reader.getDefaultReadParam();  
               
-            System.out.println(reader.getWidth(0));  
-            System.out.println(reader.getHeight(0));  
+            //System.out.println(reader.getWidth(0));  
+            //System.out.println(reader.getHeight(0));  
               
             Rectangle rect = new Rectangle(x, y, width, height);  
             param.setSourceRegion(rect);  

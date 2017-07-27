@@ -34,8 +34,11 @@ public class FileScan {
 		
 		File root=new File(scanPath);
 		FileScan.processXML(root);	
+		String save_inf_to_db=ConstUtils.prop.get(ConstUtils.SAVE_INF_TO_DB).toString();
+		if(save_inf_to_db.equals("1")){
+			MysqlHelper.writerToDB(trucks);
+		}
 		
-		//MysqlHelper.writerToDB(trucks);
 	}
 	
 	/**
@@ -71,8 +74,12 @@ public class FileScan {
 		                XmlReader xmlReader=new XmlReader();								//从文件中提取文件字符串
 		                InputStream fis = new FileInputStream(filePath);
 						
-		                Map<String,String> map=xmlReader.reader(fis,f.getParent(),fileName);//读取XML文件信息，并将图片保存到本地	                
-		                trucks.add(map);													//将属性信息放入列表中，用于入库
+		                Map<String,String> map=xmlReader.reader(fis,f.getParent(),fileName);//读取XML文件信息，并将图片保存到本地
+		                String save_inf_to_db=ConstUtils.prop.get(ConstUtils.SAVE_INF_TO_DB).toString();
+		                if(save_inf_to_db.equals("1")){
+		                	trucks.add(map);													//将属性信息放入列表中，用于入库
+		                }
+		                
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 					} catch (DocumentException e) {
