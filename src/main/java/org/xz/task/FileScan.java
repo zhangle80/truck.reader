@@ -21,6 +21,7 @@ import com.huizhi.data.persistence.MysqlHelper;
 public class FileScan {
 	private static Logger logger = LoggerFactory.getLogger(FileScan.class);
 	private static List<Map<String,String>> trucks=new ArrayList<Map<String,String>>();
+	
 	/**
 	 * 扫描文件保存路径
 	 * @throws IOException 
@@ -75,9 +76,13 @@ public class FileScan {
 		                InputStream fis = new FileInputStream(filePath);
 						
 		                Map<String,String> map=xmlReader.reader(fis,f.getParent(),fileName);//读取XML文件信息，并将图片保存到本地
+		                if(map==null||map.size()==0){
+		                	continue;
+		                }
+		                
 		                String save_inf_to_db=ConstUtils.prop.get(ConstUtils.SAVE_INF_TO_DB).toString();
 		                if(save_inf_to_db.equals("1")){
-		                	trucks.add(map);													//将属性信息放入列表中，用于入库
+		                	trucks.add(map);												//将属性信息放入列表中，用于入库
 		                }
 		                
 					} catch (FileNotFoundException e) {
@@ -85,6 +90,14 @@ public class FileScan {
 					} catch (DocumentException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					} catch (InstantiationException e) {
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (SQLException e) {
 						e.printStackTrace();
 					}		
 	                
